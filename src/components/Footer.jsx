@@ -1,7 +1,11 @@
 const Footer = () => {
   return (
     <footer>
-      <p>Copyright &copy; {new Date().getFullYear()} Cineverse</p>
+      <div className="bg-dark">
+        <p className="text-light">
+          Copyright &copy; {new Date().getFullYear()} Cineverse
+        </p>
+      </div>
     </footer>
   );
 };

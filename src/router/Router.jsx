@@ -5,11 +5,15 @@ import {
 } from "react-router-dom";
 import App from "../App.jsx";
 import Home from "../views/Home.jsx";
+import Movies from "../views/Movies.jsx";
+import TvShows from "../views/TvShows.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route index element={<Home />} />
+      <Route path="/movies" element={<Movies />} />
+      <Route path="/tv-shows" element={<TvShows />} />
     </Route>
   )
 );

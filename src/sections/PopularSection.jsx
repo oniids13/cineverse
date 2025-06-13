@@ -6,7 +6,7 @@ const PopularSection = ({ mediaType, mediaList }) => {
       <h2 className="relative pb-4 mb-8 font-bold text-center">
         Popular {mediaType}
       </h2>
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-6 py-4">
+      <div className="media-grid">
         {mediaList.map((media) => (
           <Card key={media.id} {...media} />
         ))}

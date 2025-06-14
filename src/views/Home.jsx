@@ -18,7 +18,10 @@ const Home = () => {
 
   return (
     <div>
-      <HeroSection />
+      <HeroSection
+        title="Welcome to CineVerse"
+        content="Discover thousands of movies and TV shows, get detailed information, and stay updated with what's trending."
+      />
       <SearchSection />
       <PopularSection mediaType="Movies" mediaList={popularMovies} />
       <PopularSection mediaType="TV shows" mediaList={popularTVshows} />

@@ -11,7 +11,7 @@ const SearchItem = ({ title, placeholder }) => {
           <Input placeholder={placeholder} />
         </div>
         <div className="flex justify-center items-center mt-4">
-          <Button text="Search">
+          <Button text="Search" btnType="submit">
             <SearchIcon />
           </Button>
         </div>

@@ -97,9 +97,32 @@ button:hover {
 
 .media-grid {
   display: grid;
+  width: 60%;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1.5rem;
   padding: 1rem 0;
+  margin: 0 auto;
+}
+
+.section-title {
+  position: relative;
+  padding-bottom: 0.5rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: var(--color-gradient-primary);
+  border-radius: 2px;
 }
 
 @theme {

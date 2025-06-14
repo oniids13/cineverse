@@ -126,9 +126,67 @@ const fetchTrendingMovies = async () => {
   }
 };
 
+const fetchTopTVshows = async () => {
+  const topTVshows = [];
+
+  try {
+    const response = await axios.get(TV_TOP_URL, {
+      headers: {
+        Authorization: `Bearer ${API_AUTH}`,
+      },
+    });
+
+    const topTVshowData = response.data.results;
+    topTVshowData.forEach((tv) => {
+      let topTVshow = {
+        mediaTitle: tv.name,
+        mediaPoster: "https://image.tmdb.org/t/p/w500" + tv.poster_path,
+        mediaYear: tv.first_air_date.slice(0, 4),
+        mediaId: tv.id,
+        mediaType: "tv",
+      };
+      topTVshows.push(topTVshow);
+    });
+    return topTVshows;
+  } catch (error) {
+    console.error("Error fetching Top TV shows:", error);
+    return [];
+  }
+};
+
+const fetchTrendingTVshows = async () => {
+  const trendingTVshows = [];
+
+  try {
+    const response = await axios.get(TRENDING_TV_URL, {
+      headers: {
+        Authorization: `Bearer ${API_AUTH}`,
+      },
+    });
+
+    const trendingTVshowData = response.data.results;
+    trendingTVshowData.forEach((tv) => {
+      let trendingTVshow = {
+        mediaTitle: tv.name,
+        mediaPoster: "https://image.tmdb.org/t/p/w500" + tv.poster_path,
+        mediaYear: tv.first_air_date.slice(0, 4),
+        mediaId: tv.id,
+        mediaType: "tv",
+      };
+      trendingTVshows.push(trendingTVshow);
+    });
+    return trendingTVshows;
+  } catch (error) {
+    console.error("Error fetching Trending TV shows:", error);
+    return [];
+  }
+};
+
 export {
   fetchPopularMovies,
   fetchPopularTVshows,
   fetchTopMovies,
   fetchTrendingMovies,
+  fetchTopTVshows,
+  fetchTrendingTVshows,
 };

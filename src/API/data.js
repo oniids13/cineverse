@@ -7,6 +7,10 @@ const API_AUTH =
 // API Links
 const POPULAR_MOVIE_URL = "https://api.themoviedb.org/3/movie/popular";
 const POPULAR_TV_URL = "https://api.themoviedb.org/3/tv/popular";
+const MOVIES_TOP_URL = "https://api.themoviedb.org/3/movie/top_rated";
+const TV_TOP_URL = "https://api.themoviedb.org/3/tv/top_rated";
+const TRENDING_MOVIE_URL = "https://api.themoviedb.org/3/trending/movie/day";
+const TRENDING_TV_URL = "https://api.themoviedb.org/3/trending/tv/day";
 
 async function fetchPopularMovies() {
   const popularMovies = [];
@@ -66,4 +70,65 @@ async function fetchPopularTVshows() {
   }
 }
 
-export { fetchPopularMovies, fetchPopularTVshows };
+const fetchTopMovies = async () => {
+  const topMovies = [];
+
+  try {
+    const response = await axios.get(MOVIES_TOP_URL, {
+      headers: {
+        Authorization: `Bearer ${API_AUTH}`,
+      },
+    });
+
+    const topMovieData = response.data.results;
+    topMovieData.forEach((movie) => {
+      let topMovie = {
+        mediaTitle: movie.title,
+        mediaPoster: "https://image.tmdb.org/t/p/w500" + movie.poster_path,
+        mediaYear: movie.release_date.slice(0, 4),
+        mediaId: movie.id,
+        mediaType: "movie",
+      };
+      topMovies.push(topMovie);
+    });
+    return topMovies;
+  } catch (error) {
+    console.error("Error fetching Top Movies:", error);
+    return [];
+  }
+};
+
+const fetchTrendingMovies = async () => {
+  const trendingMovies = [];
+
+  try {
+    const response = await axios.get(TRENDING_MOVIE_URL, {
+      headers: {
+        Authorization: `Bearer ${API_AUTH}`,
+      },
+    });
+
+    const trendingMovieData = response.data.results;
+    trendingMovieData.forEach((movie) => {
+      let topMovie = {
+        mediaTitle: movie.title,
+        mediaPoster: "https://image.tmdb.org/t/p/w500" + movie.poster_path,
+        mediaYear: movie.release_date.slice(0, 4),
+        mediaId: movie.id,
+        mediaType: "movie",
+      };
+      trendingMovies.push(topMovie);
+    });
+    return trendingMovies;
+  } catch (error) {
+    console.error("Error fetching Trending Movies:", error);
+    return [];
+  }
+};
+
+export {
+  fetchPopularMovies,
+  fetchPopularTVshows,
+  fetchTopMovies,
+  fetchTrendingMovies,
+};

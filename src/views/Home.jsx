@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 import HeroSection from "../sections/HeroSection";
 import SearchSection from "../sections/SearchSection";
-import PopularSection from "../sections/PopularSection";
+import MediaGridSection from "../sections/MediaGridSection";
 
 // API Data
 import { fetchPopularMovies, fetchPopularTVshows } from "../API/data";
@@ -23,8 +23,16 @@ const Home = () => {
         content="Discover thousands of movies and TV shows, get detailed information, and stay updated with what's trending."
       />
       <SearchSection />
-      <PopularSection mediaType="Movies" mediaList={popularMovies} />
-      <PopularSection mediaType="TV shows" mediaList={popularTVshows} />
+      <MediaGridSection
+        content="Popular"
+        mediaType="Movies"
+        mediaList={popularMovies}
+      />
+      <MediaGridSection
+        content="Popular"
+        mediaType="TV shows"
+        mediaList={popularTVshows}
+      />
     </div>
   );
 };

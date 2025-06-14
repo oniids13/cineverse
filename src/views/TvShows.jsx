@@ -1,5 +1,14 @@
+import HeroSection from "../sections/HeroSection";
+
 const TvShows = () => {
-  return <div>This is the tv shows page</div>;
+  return (
+    <>
+      <HeroSection
+        title="Explore TV Shows"
+        content="Discover top-rated and trending TV shows from around the world."
+      />
+    </>
+  );
 };
 
 export default TvShows;

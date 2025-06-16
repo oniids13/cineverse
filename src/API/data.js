@@ -11,6 +11,8 @@ const MOVIES_TOP_URL = "https://api.themoviedb.org/3/movie/top_rated";
 const TV_TOP_URL = "https://api.themoviedb.org/3/tv/top_rated";
 const TRENDING_MOVIE_URL = "https://api.themoviedb.org/3/trending/movie/day";
 const TRENDING_TV_URL = "https://api.themoviedb.org/3/trending/tv/day";
+const SPECIFIC_MOVIE_URL = "https://api.themoviedb.org/3/movie";
+const SPECIFIC_TV_URL = "https://api.themoviedb.org/3/tv";
 
 async function fetchPopularMovies() {
   const popularMovies = [];
@@ -182,6 +184,60 @@ const fetchTrendingTVshows = async () => {
   }
 };
 
+const fetchSpecificMovie = async (movieId) => {
+  try {
+    const response = await axios.get(`${SPECIFIC_MOVIE_URL}/${movieId}`, {
+      headers: {
+        Authorization: `Bearer ${API_AUTH}`,
+      },
+    });
+
+    const specificMovieData = response.data;
+    const specificMovie = {
+      imgUrl:
+        "https://image.tmdb.org/t/p/w500" + specificMovieData.backdrop_path,
+      title: specificMovieData.title,
+      year: specificMovieData.release_date.split("-")[0],
+      description: specificMovieData.overview,
+      genre: specificMovieData.genres[0].name,
+      popularity: Math.round(specificMovieData.popularity * 100) / 100,
+      runtime: specificMovieData.runtime + " minutes",
+      type: "movie",
+    };
+
+    return specificMovie;
+  } catch (error) {
+    console.error("Error fetching Specific Movie:", error);
+  }
+};
+
+const fetchSpecificTv = async (TvId) => {
+  try {
+    const response = await axios.get(`${SPECIFIC_TV_URL}/${TvId}`, {
+      headers: {
+        Authorization: `Bearer ${API_AUTH}`,
+      },
+    });
+
+    const specificTvData = response.data;
+    const specificTv = {
+      imgUrl: "https://image.tmdb.org/t/p/w500" + specificTvData.backdrop_path,
+      title: specificTvData.name,
+      year: specificTvData.first_air_date.split("-")[0],
+      description: specificTvData.overview,
+      genre: specificTvData.genres[0].name,
+      popularity: Math.round(specificTvData.popularity * 100) / 100,
+      noOfSeasons: specificTvData.number_of_seasons,
+      noOfEpisodes: specificTvData.number_of_episodes,
+      type: "tv",
+    };
+
+    return specificTv;
+  } catch (error) {
+    console.error("Error fetching Specific TV:", error);
+  }
+};
+
 export {
   fetchPopularMovies,
   fetchPopularTVshows,
@@ -189,4 +245,6 @@ export {
   fetchTrendingMovies,
   fetchTopTVshows,
   fetchTrendingTVshows,
+  fetchSpecificMovie,
+  fetchSpecificTv,
 };

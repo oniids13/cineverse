@@ -9,6 +9,7 @@ import Movies from "../views/Movies.jsx";
 import TvShows from "../views/TvShows.jsx";
 import ErrorPage from "../views/ErrorPage.jsx";
 import MediaPage from "../views/MediaPage.jsx";
+import SearchPage from "../views/SearchPage.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -17,6 +18,7 @@ const router = createBrowserRouter(
       <Route path="/movies" element={<Movies />} />
       <Route path="/tv-shows" element={<TvShows />} />
       <Route path="/:mediaType/:mediaId" element={<MediaPage />} />
+      <Route path="/search/:mediaType" element={<SearchPage />} />
     </Route>
   )
 );

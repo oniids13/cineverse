@@ -13,6 +13,8 @@ const TRENDING_MOVIE_URL = "https://api.themoviedb.org/3/trending/movie/day";
 const TRENDING_TV_URL = "https://api.themoviedb.org/3/trending/tv/day";
 const SPECIFIC_MOVIE_URL = "https://api.themoviedb.org/3/movie";
 const SPECIFIC_TV_URL = "https://api.themoviedb.org/3/tv";
+const SEARCH_MOVIE_URL = "https://api.themoviedb.org/3/search/movie";
+const SEARCH_TV_URL = "https://api.themoviedb.org/3/search/tv";
 
 async function fetchPopularMovies() {
   const popularMovies = [];
@@ -238,6 +240,66 @@ const fetchSpecificTv = async (TvId) => {
   }
 };
 
+const fetchMovieSearch = async (query) => {
+  const movies = [];
+  const config = {
+    headers: { Authorization: `Bearer ${API_AUTH}` },
+    "Content-Type": "application/json",
+    params: {
+      api_key: API_KEY,
+      query: query,
+    },
+  };
+  try {
+    const response = await axios.get(SEARCH_MOVIE_URL, config);
+    const movieData = response.data.results;
+    movieData.forEach((movie) => {
+      let movieSearchData = {
+        mediaTitle: movie.title,
+        mediaPoster: "https://image.tmdb.org/t/p/w500" + movie.poster_path,
+        mediaYear: movie.release_date.slice(0, 4),
+        mediaId: movie.id,
+        mediaType: "movie",
+      };
+      movies.push(movieSearchData);
+    });
+
+    return movies;
+  } catch (error) {
+    console.error("Error fetching Movie Search:", error);
+    return [];
+  }
+};
+
+const fetchTvSearch = async (query) => {
+  const tvshows = [];
+  const config = {
+    headers: { Authorization: `Bearer ${API_AUTH}` },
+    params: {
+      api_key: API_KEY,
+      query: query,
+    },
+  };
+  try {
+    const response = await axios.get(SEARCH_TV_URL, config);
+    const tvData = response.data.results;
+    tvData.forEach((tvShow) => {
+      let tvSearchData = {
+        mediaTitle: tvShow.name,
+        mediaPoster: "https://image.tmdb.org/t/p/w500" + tvShow.poster_path,
+        mediaYear: tvShow.first_air_date.slice(0, 4),
+        mediaId: tvShow.id,
+        mediaType: "tv",
+      };
+      tvshows.push(tvSearchData);
+    });
+    return tvshows;
+  } catch (error) {
+    console.error("Error fetching Tv show Search:", error);
+    return [];
+  }
+};
+
 export {
   fetchPopularMovies,
   fetchPopularTVshows,
@@ -247,4 +309,6 @@ export {
   fetchTrendingTVshows,
   fetchSpecificMovie,
   fetchSpecificTv,
+  fetchMovieSearch,
+  fetchTvSearch,
 };

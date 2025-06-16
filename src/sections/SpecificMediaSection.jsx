@@ -30,7 +30,7 @@ const SpecificMediaSection = ({
           {/* Backdrop Image Section */}
           <div className="relative">
             <img
-              className="w-full h-[500px] object-cover"
+              className="w-full h-[500px] object-fit"
               src={imgUrl}
               alt={title}
             />
@@ -41,7 +41,7 @@ const SpecificMediaSection = ({
           <div className="px-4 py-6">
             <h1 className="text-3xl font-bold mb-3">
               {title}
-              <span className="text-gray-500 text-xl ml-2">{year}</span>
+              <span className="text-gray-500 text-xl ml-2">({year})</span>
             </h1>
 
             {/* Meta Information */}

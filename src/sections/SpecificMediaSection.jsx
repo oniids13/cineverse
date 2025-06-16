@@ -7,7 +7,7 @@ import {
   PlayCircle as PlayCircleIcon,
 } from "@mui/icons-material";
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import Button from "../components/Button";
 
@@ -23,6 +23,36 @@ const SpecificMediaSection = ({
   noOfSeasons,
   noOfEpisodes,
 }) => {
+  const location = useLocation();
+  const fromPage = location.state?.from;
+  const isFromSearch = fromPage === "search";
+  const isFromHome = fromPage === "home";
+
+  // Get the search query from location state if it exists
+  const searchQuery = location.state?.searchQuery;
+  const searchMediaType = location.state?.mediaType;
+
+  const getBackLink = () => {
+    if (isFromSearch && searchQuery) {
+      // If coming from search, go back to search results
+      return `/search/${searchMediaType}?q=${encodeURIComponent(searchQuery)}`;
+    } else if (isFromHome) {
+      // If coming from home, go back to home
+      return `/`;
+    }
+    // Otherwise go to the regular media type page
+    return `/${type}${type === "tv" ? "-shows" : "s"}`;
+  };
+
+  const getBackButtonText = () => {
+    if (isFromSearch) {
+      return "Search Results";
+    } else if (isFromHome) {
+      return "Home";
+    }
+    return `${type}${type === "tv" ? " shows" : "s"}`;
+  };
+
   return (
     <div>
       <div className="container mx-auto py-5">
@@ -79,11 +109,10 @@ const SpecificMediaSection = ({
 
             {/* Back Button */}
             <div className="mt-6">
-              <Link to={`/${type}${type === "tv" ? "-shows" : "s"}`}>
+              <Link to={getBackLink()}>
                 <Button>
                   <ArrowBackIcon className="mr-2" />
-                  Back to {type}
-                  {type === "tv" ? " shows" : "s"}
+                  Back to {getBackButtonText()}
                 </Button>
               </Link>
             </div>

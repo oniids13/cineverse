@@ -1,16 +1,33 @@
 import HeroSection from "../sections/HeroSection";
 import MediaGridSection from "../sections/MediaGridSection";
 import { fetchTopMovies, fetchTrendingMovies } from "../API/data";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 import { useState, useEffect } from "react";
 
 const Movies = () => {
   const [topMovies, setTopMovies] = useState([]);
   const [trendingMovies, setTrendingMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchTopMovies().then((data) => setTopMovies(data));
-    fetchTrendingMovies().then((data) => setTrendingMovies(data));
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const [topMoviesData, trendingMoviesData] = await Promise.all([
+          fetchTopMovies(),
+          fetchTrendingMovies(),
+        ]);
+        setTopMovies(topMoviesData);
+        setTrendingMovies(trendingMoviesData);
+      } catch (error) {
+        console.error("Error fetching movies data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
@@ -21,20 +38,28 @@ const Movies = () => {
           content="Discover top-rated and trending movies from around the world."
         />
       </div>
-      <div>
-        <MediaGridSection
-          content="Top Rated"
-          mediaType="Movies"
-          mediaList={topMovies}
-        />
-      </div>
-      <div>
-        <MediaGridSection
-          content="Trending"
-          mediaType="Movies"
-          mediaList={trendingMovies}
-        />
-      </div>
+      {loading ? (
+        <LoadingSpinner text="Loading movies..." />
+      ) : (
+        <>
+          <div>
+            <MediaGridSection
+              content="Top Rated"
+              mediaType="Movies"
+              mediaList={topMovies}
+              from="movies"
+            />
+          </div>
+          <div>
+            <MediaGridSection
+              content="Trending"
+              mediaType="Movies"
+              mediaList={trendingMovies}
+              from="movies"
+            />
+          </div>
+        </>
+      )}
     </>
   );
 };

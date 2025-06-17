@@ -28,19 +28,16 @@ const SpecificMediaSection = ({
   const isFromSearch = fromPage === "search";
   const isFromHome = fromPage === "home";
 
-  // Get the search query from location state if it exists
   const searchQuery = location.state?.searchQuery;
   const searchMediaType = location.state?.mediaType;
 
   const getBackLink = () => {
     if (isFromSearch && searchQuery) {
-      // If coming from search, go back to search results
       return `/search/${searchMediaType}?q=${encodeURIComponent(searchQuery)}`;
     } else if (isFromHome) {
-      // If coming from home, go back to home
       return `/`;
     }
-    // Otherwise go to the regular media type page
+
     return `/${type}${type === "tv" ? "-shows" : "s"}`;
   };
 
@@ -72,7 +69,7 @@ const SpecificMediaSection = ({
               <span className="text-gray-500 text-xl ml-2">({year})</span>
             </h1>
 
-            <div className="flex gap-6 text-gray-600">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-6 text-gray-600">
               <div className="flex items-center">
                 <MovieIcon className="mr-1" />
                 <span>{genre}</span>

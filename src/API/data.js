@@ -179,6 +179,7 @@ const fetchTrendingTVshows = async () => {
       };
       trendingTVshows.push(trendingTVshow);
     });
+
     return trendingTVshows;
   } catch (error) {
     console.error("Error fetching Trending TV shows:", error);
@@ -189,25 +190,32 @@ const fetchTrendingTVshows = async () => {
 const fetchSpecificMovie = async (movieId) => {
   try {
     const response = await axios.get(`${SPECIFIC_MOVIE_URL}/${movieId}`, {
-      headers: {
-        Authorization: `Bearer ${API_AUTH}`,
-      },
+      headers: { Authorization: `Bearer ${API_AUTH}` },
     });
 
-    const specificMovieData = response.data;
-    const specificMovie = {
-      imgUrl:
-        "https://image.tmdb.org/t/p/w500" + specificMovieData.backdrop_path,
-      title: specificMovieData.title,
-      year: specificMovieData.release_date.split("-")[0],
-      description: specificMovieData.overview,
-      genre: specificMovieData.genres[0].name,
-      popularity: Math.round(specificMovieData.popularity * 100) / 100,
-      runtime: specificMovieData.runtime + " minutes",
+    const data = response.data;
+    return {
+      imgUrl: "https://image.tmdb.org/t/p/w500" + data.backdrop_path,
+      title: data.title,
+      year: data.release_date?.split("-")[0],
+      description: data.overview,
+      genre: data.genres?.[0]?.name,
+      popularity: Math.round(data.popularity * 100) / 100,
+      runtime: data.runtime + " minutes",
       type: "movie",
+      voteAverage: data.vote_average,
+      voteCount: data.vote_count,
+      imdbId: data.imdb_id,
+      tagline: data.tagline,
+      budget: data.budget,
+      revenue: data.revenue,
+      productionCompanies: data.production_companies,
+      productionCountries: data.production_countries,
+      originalLanguage: data.original_language,
+      status: data.status,
+      homepage: data.homepage,
+      releaseDate: data.release_date,
     };
-
-    return specificMovie;
   } catch (error) {
     console.error("Error fetching Specific Movie:", error);
   }
@@ -221,20 +229,39 @@ const fetchSpecificTv = async (TvId) => {
       },
     });
 
-    const specificTvData = response.data;
-    const specificTv = {
-      imgUrl: "https://image.tmdb.org/t/p/w500" + specificTvData.backdrop_path,
-      title: specificTvData.name,
-      year: specificTvData.first_air_date.split("-")[0],
-      description: specificTvData.overview,
-      genre: specificTvData.genres[0].name,
-      popularity: Math.round(specificTvData.popularity * 100) / 100,
-      noOfSeasons: specificTvData.number_of_seasons,
-      noOfEpisodes: specificTvData.number_of_episodes,
+    const data = response.data;
+    return {
+      imgUrl: "https://image.tmdb.org/t/p/w500" + data.backdrop_path,
+      title: data.name,
+      year: data.first_air_date?.split("-")[0],
+      description: data.overview,
+      genre: data.genres?.[0]?.name,
+      popularity: Math.round(data.popularity * 100) / 100,
+      noOfSeasons: data.number_of_seasons,
+      noOfEpisodes: data.number_of_episodes,
       type: "tv",
-    };
 
-    return specificTv;
+      // New TV-specific fields
+      voteAverage: data.vote_average,
+      voteCount: data.vote_count,
+      tagline: data.tagline,
+      status: data.status,
+      homepage: data.homepage,
+      createdBy: data.created_by,
+      networks: data.networks,
+      firstAirDate: data.first_air_date,
+      lastAirDate: data.last_air_date,
+      inProduction: data.in_production,
+      lastEpisode: data.last_episode_to_air,
+      nextEpisode: data.next_episode_to_air,
+      episodeRunTime: data.episode_run_time,
+      seasons: data.seasons,
+      productionCompanies: data.production_companies,
+      originCountry: data.origin_country,
+      originalLanguage: data.original_language,
+      spokenLanguages: data.spoken_languages,
+      showType: data.type,
+    };
   } catch (error) {
     console.error("Error fetching Specific TV:", error);
   }

@@ -79,14 +79,10 @@ const SearchPage = () => {
         <MediaGridSection
           content="Search Results"
           mediaType={mediaType === "movie" ? "Movies" : "TV shows"}
-          mediaList={sortedResults.map((media) => ({
-            ...media,
-            state: {
-              from: "search",
-              searchQuery: query,
-              mediaType: mediaType,
-            },
-          }))}
+          mediaList={sortedResults}
+          from="search"
+          searchQuery={query}
+          searchMediaType={mediaType}
         />
       )}
     </div>
